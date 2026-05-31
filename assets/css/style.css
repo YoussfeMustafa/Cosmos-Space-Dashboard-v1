@@ -125,6 +125,40 @@
     --font-inter: "Inter", sans-serif;
   }
 }
+@media (min-width: 1024px) {
+    #sidebar {
+        transform: translateX(0) !important;
+    }
+}
+/* إجبار القائمة على أن تكون عائمة تماماً */
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 256px; /* عرض القائمة */
+    z-index: 100;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* حالة الإغلاق */
+#sidebar.-translate-x-full {
+    transform: translateX(-100%);
+}
+
+/* حالة الفتح */
+#sidebar:not(.-translate-x-full) {
+    transform: translateX(0);
+}
+
+/* إضافة خلفية مظلمة عند فتح القائمة (اختياري لكنه احترافي) */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 90;
+    display: none;
+}
 @layer base {
   *,
   :after,

@@ -255,3 +255,79 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. العناصر الأساسية
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebar-toggle");
+    const navLinks = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll(".app-section");
+
+    // 2. تفعيل زر القائمة (الثلاث شرطات)
+    if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener("click", (e) => {
+            e.stopPropagation(); // منع غلق القائمة فوراً
+            sidebar.classList.toggle("-translate-x-full");
+            console.log("Sidebar toggled");
+        });
+    }
+
+    // 3. التبديل بين الأقسام
+    navLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute("data-section");
+            const targetSection = document.getElementById(targetId);
+
+            if (targetSection) {
+                sections.forEach((s) => s.classList.add("hidden"));
+                targetSection.classList.remove("hidden");
+                
+                // إغلاق القائمة في الموبايل بعد الضغط
+                if (window.innerWidth < 1024) {
+                    sidebar.classList.add("-translate-x-full");
+                }
+            }
+        });
+    });
+
+    // 4. معالجة التاريخ لـ APOD (دمجنا الكود المكرر هنا)
+    const apodInput = document.getElementById('apod-date-input');
+    const apodFullDateText = document.getElementById('apod-date');
+
+    const updateDateText = (dateValue) => {
+        const dateObj = new Date(dateValue);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        if (apodFullDateText) {
+            apodFullDateText.textContent = `Astronomy Picture of the Day - ${dateObj.toLocaleDateString('en-US', options)}`;
+        }
+    };
+
+    if (apodInput) {
+        const today = new Date().toISOString().split('T')[0];
+        apodInput.value = today;
+        apodInput.max = today;
+        updateDateText(today);
+        
+        apodInput.addEventListener('input', (e) => {
+            updateDateText(e.target.value);
+        });
+    }
+    
+    console.log("Cosmos Dashboard is fully initialized! 🚀");
+});
+
+const sidebar = document.getElementById("sidebar");
+const sidebarToggle = document.getElementById("sidebar-toggle");
+
+if (sidebarToggle && sidebar) {
+    sidebarToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        // إزالة الكلاس الذي يمنع الظهور
+        sidebar.classList.toggle("-translate-x-full");
+        console.log("Sidebar toggled: current state is", sidebar.classList.contains("-translate-x-full") ? "Hidden" : "Visible");
+    });
+}
